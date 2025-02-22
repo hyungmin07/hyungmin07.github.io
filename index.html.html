@@ -1,0 +1,33 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>오늘의 급식</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+   <header>
+    <img src="./img/image/로고.png" class="logo">
+    <h1 class="head">오늘의 급식</h1>
+ </header>
+ <main>
+    <div class="mygrid">
+        <label id="hiddenButton">오늘의 급식은?</label>
+        <div id="button">
+            <input type="date" id="date-input" name="date-input">
+            <button id="check-menu">메뉴 확인</button>          
+        </div>
+
+        <!-- 📌 급식 메뉴 리스트 출력 -->
+        <div id="menu-list">
+            <ul id="menu-items"></ul>
+        </div>
+    </div> 
+</main>
+<script src="js.js"></script>
+</body>
+</html>
