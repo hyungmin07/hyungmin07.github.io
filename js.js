@@ -29,10 +29,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error("❌ 급식 데이터를 불러올 수 없습니다.");
             }
             const data = await response.json();
+
+            // 📌 급식 데이터가 없을 경우 처리
+            if (!data.mealServiceDietInfo || !data.mealServiceDietInfo[1]?.row.length) {
+                console.warn("⚠️ 해당 날짜의 급식 정보가 없습니다.");
+                return { message: "해당 날짜의 급식 정보가 없습니다." };
+            }
+
             return data;
         } catch (error) {
             console.error("⚠️ API 오류:", error);
-            return null;
+            return { message: "급식 데이터를 불러오는 중 오류가 발생했습니다." };
         }
     }
 
@@ -47,13 +54,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const menuData = await fetchMenuData(dateInput);
-            if (!menuData || !menuData.mealServiceDietInfo) {
-                menuList.innerHTML = "<li>급식 정보 없음</li>";
+
+            // 📌 기존 메뉴 리스트 초기화 (급식이 없는 날에도 변화가 있도록)
+            menuList.innerHTML = "";
+
+            // 📌 급식 데이터가 없을 때 화면에 "급식 정보 없음" 표시
+            if (menuData.message) {
+                const noDataItem = document.createElement("li");
+                noDataItem.textContent = menuData.message;
+                menuList.appendChild(noDataItem);
+                menuListContainer.style.display = "block";
                 return;
             }
 
             const meals = menuData.mealServiceDietInfo[1].row;
-            menuList.innerHTML = "";
 
             meals.forEach(meal => {
                 const mealItem = document.createElement("li");
